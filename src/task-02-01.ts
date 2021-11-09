@@ -1,4 +1,4 @@
-interface Book {
+interface  Book {
     id: number;
     title: string;
     author: string;
@@ -15,8 +15,8 @@ enum Category {
 }
 
 const run = () => {
-    const getAllBooks = (): Book[] => {
-        const allBooks: Book[] = [
+    const getAllBooks = (): readonly Book[] => {
+        const allBooks = <const>[
             { id: 1, title: 'Refactoring JavaScript', author: 'Evan Burchard', available: true, category: Category.JavaScript},
             { id: 2, title: 'JavaScript Testing', author: 'Liang Yuxian Eugene', available: false, category: Category.JavaScript},
             { id: 3, title: 'CSS Secrets', author: 'Lea Verou', available: true, category: Category.CSS},
@@ -26,9 +26,9 @@ const run = () => {
         return allBooks;
     };
 
-    const allBooks = getAllBooks();
+    let allBooks = getAllBooks();
 
-    const logFirstAvailable = (allBooks: Book[]) => {
+    const logFirstAvailable = (allBooks: readonly Book[]) => {
         console.log(`Amount: ${allBooks.length}`);
         console.log(`First available: ${allBooks.find(book => book.available)?.title}`);
     };
@@ -45,26 +45,27 @@ const run = () => {
     console.log(getBookTitlesByCategory(Category.JavaScript));
 
     console.log('===== 7 =====');
-    const logBookTitles = (books: Book[]): void => {
+    const logBookTitles = (books: readonly Book[]): void => {
         books.forEach(book => console.log(book.title));
     };
     logBookTitles(allBooks);
 
     console.log('===== 8, 9 =====');
     const getBookAuthorByIndex = (index: number): [author:string, title:string] => {
-        return [allBooks[index].author, allBooks[index].title];
+        const {author, title} = allBooks[index];
+        return [author, title];
     };
     console.log(getBookAuthorByIndex(1));
 
     console.log('===== 10 =====');
-    const librariesData = [
+    const librariesData = <const>[
         { lib: 'libName1', books: 1_000_000_000, avgPagesPerBook: 250 },
         { lib: 'libName2', books: 5_000_000_000, avgPagesPerBook: 300 },
         { lib: 'libName3', books: 3_000_000_000, avgPagesPerBook: 280 }
     ];
-    const calcTotalPages = (librariesData: {books: number; avgPagesPerBook: number}[]): BigInt => {
+    const calcTotalPages = (librariesData): BigInt => {
         return librariesData.reduce((acc, libraryInfo) => {
-            acc += BigInt(libraryInfo.books + libraryInfo.avgPagesPerBook);
+            acc += BigInt(libraryInfo.books * libraryInfo.avgPagesPerBook);
             return acc;
         }, 0n);
     };
