@@ -302,7 +302,7 @@ class ReferenceItem {
         this._publisher = newPublisher;
     }
 
-    constructor(id: number, public title: string, private year: number) {
+    constructor(id: number, public title: string, protected year: number) {
         console.log('Creating a new ReferenceItem...');
         this.#id = id;
     }
@@ -321,3 +321,35 @@ ref.printItem();
 ref.publisher = 'asd';
 console.log(ref.publisher);
 console.log(ref.getId());
+
+console.log(`
+//
+// Task 05.02. Extending Classes
+//
+`);
+class Encyclopedia extends ReferenceItem {
+    constructor(id: number, title: string, year: number, public edition: number) {
+        super(id, title, year);
+    }
+
+    printItem() {
+        super.printItem();
+        console.log(`Edition: ${this.edition} (${this.year})`);
+    }
+}
+const refBook = new Encyclopedia(1, 'Typescript', 2021, 2);
+console.log(refBook);
+refBook.printItem();
+
+
+
+
+
+
+
+
+
+
+
+
+
