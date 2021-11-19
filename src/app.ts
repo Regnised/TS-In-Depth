@@ -96,7 +96,7 @@ createCustomer('Anna', 20);
 createCustomer('Vika', 20, 'Kyiv');
 
 // 4.
-const getBookByID = (id: number, books: readonly Book[] = getAllBooks()): Book | undefined => {
+const getBookByID = (id: number, books: readonly Book[] = getAllBooks()): BookOrUndefined => {
     return books.find(book => book.id === id);
 };
 console.log(getBookByID(1));
@@ -281,7 +281,7 @@ console.log(`
 //
 `);
 
-class ReferenceItem {
+abstract class ReferenceItem {
     // title: string;
     // year: number;
     // constructor(newTitle: string, newYear: number) {
@@ -314,13 +314,15 @@ class ReferenceItem {
     getId(): number {
         return this.#id;
     }
+
+    abstract printCitation(): void;
 }
-const ref: ReferenceItem = new ReferenceItem(1, 'TypeScript', 2021);
-console.log(ref);
-ref.printItem();
-ref.publisher = 'asd';
-console.log(ref.publisher);
-console.log(ref.getId());
+// const ref: ReferenceItem = new ReferenceItem(1, 'TypeScript', 2021);
+// console.log(ref);
+// ref.printItem();
+// ref.publisher = 'asd';
+// console.log(ref.publisher);
+// console.log(ref.getId());
 
 console.log(`
 //
@@ -336,12 +338,65 @@ class Encyclopedia extends ReferenceItem {
         super.printItem();
         console.log(`Edition: ${this.edition} (${this.year})`);
     }
+
+    printCitation() {
+        console.log(`${this.title} - ${this.year}`);
+    }
 }
+// const refBook = new Encyclopedia(1, 'Typescript', 2021, 2);
+// console.log(refBook);
+// refBook.printItem();
+
+console.log(`
+//
+// Task 05.03. Creating Abstract Classes
+//
+`);
 const refBook = new Encyclopedia(1, 'Typescript', 2021, 2);
-console.log(refBook);
-refBook.printItem();
+refBook.printCitation();
 
+console.log(`
+//
+// Task 05.04. Interfaces for Class Types
+//
+`);
 
+class UniversityLibrarian implements Librarian {
+    name: string;
+    email: string;
+    department: string;
+
+    assistCustomer(custName: string): void {
+        console.log(`${this.name} is assisting ${custName}`);
+    }
+}
+const favouriteLibrarian: UniversityLibrarian = new UniversityLibrarian();
+favouriteLibrarian.name = 'Vasyl';
+favouriteLibrarian.assistCustomer('Viktoriya');
+
+console.log(`
+//
+// Task 05.05. Intersection and Union Types
+//
+`);
+type PersonBook = Person & Book;
+type BookOrUndefined = Book | undefined;
+const person: PersonBook = {
+    name: 'Vasyl',
+    email: 'test@mail.com',
+    id: 1,
+    author: 'Vasyl',
+    available: false,
+    category: Category.CSS,
+    title: 'CSS Essentials'
+};
+
+console.log(`
+//
+// 06. Modules and Namespaces
+//     Task 06.01. Using Namespaces
+//
+`);
 
 
 
